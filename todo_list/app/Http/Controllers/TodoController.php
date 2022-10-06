@@ -11,7 +11,7 @@ class TodoController extends Controller
 {
     public function index()
     {
-        $todos = Todo::all();
+        $todos = Todo::orderBy('completed')->get();
         
         return view('todos.index')->with(['todos' => $todos]);
     }
@@ -39,5 +39,11 @@ class TodoController extends Controller
     {
         $todo->update(['title' => $request->title]);
         return redirect(route('todo.index'))->with('message','Title updated!');
+    }
+
+    public function complete(Todo $todo)
+    {
+        $todo->update(['completed'=> True]);
+        return redirect()->back()->with('message','Task completed!');
     }
 }

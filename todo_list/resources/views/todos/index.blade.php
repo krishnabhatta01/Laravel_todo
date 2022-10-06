@@ -16,6 +16,7 @@
         @if($todo->completed)
       <p class=""><del>{{$todo->title}}</del></p>
       @else
+        <p class="">{{$todo->title}}</p>
       
       @endif
       
@@ -26,14 +27,19 @@
       @if($todo->completed)
       <span class="fa-regular fa-square-check cursor-pointer text-primary"/>
       @else
-        <span class="fa-regular fa-square-check text-secondary cursor-pointer"/>
+        <span onclick="document.getElementById('{{'form-completed-'.$todo->id}}').submit()" class="fa-regular fa-square-check text-secondary cursor-pointer"/>
+
+        <form class="display-hidden" id="{{'form-completed-'.$todo->id}}" action="{{route('todo.complete', $todo->id)}}" method="POST">
+          @csrf
+          @method('put')
+        </form>
       @endif
       </div>
     </li>
     @endforeach
   </ul>
 
-  <form action="/todos/create" method="get">
+  <form action="/todos/create"  method="get">
     
     <button class="btn btn-success mt-3 mb-3" type="submit">Create</button>
   </form>
