@@ -10,9 +10,14 @@
   </div>
     <x-alert/>
   <ul class="list-group list-group-flush">
+
     @foreach($todos as $todo )
     <li class="list-group-item d-flex justify-content-between">
       
+      <div class="">
+           @include('todos.Complete-button')
+
+      </div>
         @if($todo->completed)
       <p class=""><del>{{$todo->title}}</del></p>
       @else
@@ -20,33 +25,34 @@
       
       @endif
       
-    <div class="justify-content-evenly">
-    <a href="/todos/edit/{{$todo->id}}">
-        <i class="fa-regular fa-pen-to-square text-black"></i>
+    <div>
+
+      <a href="{{route('todo.edit', $todo->id)}}">
+          <span class="fa-regular fa-pen-to-square text-black"/>
       </a>
 
-      @if($todo->completed)
-      <span onclick="document.getElementById('{{'form-incompleted-'.$todo->id}}').submit()" class="fa-regular fa-square-check cursor-pointer text-primary  "/>
-        <form class="display-hidden" id="{{'form-incompleted-'.$todo->id}}" action="{{route('todo.incomplete', $todo->id)}}" method="POST">
+      
+       <span 
+       onclick="event.preventDefault();
+       if(confirm('Are you sure you wanna delete the task?')){
+
+         document.getElementById('{{'form-deleted-'.$todo->id}}').submit();
+       }"
+       
+       class="fa-solid fa-trash" style="color:rgba(255, 0, 0, 0.685); padding-left:5px; cursor:pointer;
+       "/>
+      
+        <form class="d-hidden" id="{{'form-deleted-'.$todo->id}}" action="{{route('todo.destroy', $todo->id)}}" method="POST">
           @csrf
-          @method('put')
+          @method('delete')
         </form>
 
-
-      @else
-        <span onclick="document.getElementById('{{'form-completed-'.$todo->id}}').submit()" class="fa-regular fa-square-check text-secondary cursor-pointer"/>
-
-        <form class="display-hidden" id="{{'form-completed-'.$todo->id}}" action="{{route('todo.complete', $todo->id)}}" method="POST">
-          @csrf
-          @method('put')
-        </form>
-      @endif
       </div>
     </li>
     @endforeach
   </ul>
 
-  <form action="/todos/create"  method="get">
+  <form action="{{route('todo.create')}}"  method="get">
     
     <button class="btn btn-success mt-3 mb-3" type="submit">Create</button>
   </form>

@@ -22,7 +22,7 @@
                                     {{ __('Update') }}
                                 </button>
 
-                                <a href="/todos" class="btn btn-success mt-3 mb-3">back</a>
+                                <a href="{{route('todo.index')}}" class="btn btn-success mt-3 mb-3">back</a>
                             </div>
                         </div>
 </form>

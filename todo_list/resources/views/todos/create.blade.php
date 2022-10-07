@@ -2,7 +2,7 @@
 
 @section('content')
 
-<form method="POST" action="/todos/create">
+<form method="POST" action="{{route('todo.store')}}">
                         @csrf
                             <x-alert/>
                         <div class="row mb-3 mt-3">
@@ -20,7 +20,7 @@
                                     {{ __('Create') }}
                                 </button>
 
-                                <a href="/todos" class="btn btn-success mt-3 mb-3">back</a>
+                                <a href="{{route('todo.index')}}" class="btn btn-success mt-3 mb-3">back</a>
                             </div>
                         </div>
 </form>
